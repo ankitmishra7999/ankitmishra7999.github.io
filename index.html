@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ankit Mishra | Portfolio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg: #0a0a0a;
+            --surface: #111;
+            --border: #222;
+            --text: #e5e5e5;
+            --muted: #888;
+            --accent: #6d28d9;
+            --accent-light: #8b5cf6;
+            --gradient-1: linear-gradient(135deg, #6d28d9 0%, #3b82f6 100%);
+            --gradient-2: linear-gradient(135deg, #3b82f6 0%, #6d28d9 100%);
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+
+        /* animated background subtle */
+        .bg-grid {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image:
+                linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+            background-size: 60px 60px;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 100;
+            padding: 1.2rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(10,10,10,0.8);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+        }
+        .logo {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.85rem;
+            color: var(--accent-light);
+            letter-spacing: 0.1em;
+        }
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 2rem;
+        }
+        nav a {
+            text-decoration: none;
+            color: var(--muted);
+            font-size: 0.8rem;
+            letter-spacing: 0.05em;
+            transition: color 0.3s;
+        }
+        nav a:hover {
+            color: var(--text);
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 8rem 1.5rem 4rem;
+        }
+
+        /* HERO */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+        }
+        .hero-badge {
+            display: inline-block;
+            padding: 0.3rem 1.2rem;
+            border: 1px solid var(--border);
+            border-radius: 30px;
+            font-size: 0.75rem;
+            letter-spacing: 0.1em;
+            color: var(--muted);
+            margin-bottom: 2rem;
+            background: rgba(255,255,255,0.02);
+            backdrop-filter: blur(10px);
+        }
+        .hero h1 {
+            font-size: clamp(3rem, 8vw, 5.5rem);
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .hero p {
+            font-size: 1.05rem;
+            color: var(--muted);
+            max-width: 500px;
+            margin: 0 auto 2.5rem;
+        }
+        .hero-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        .btn {
+            padding: 0.8rem 2rem;
+            border-radius: 30px;
+            font-weight: 500;
+            font-size: 0.85rem;
+            text-decoration: none;
+            transition: all 0.3s;
+            letter-spacing: 0.03em;
+            cursor: pointer;
+            border: 1px solid transparent;
+        }
+        .btn-primary {
+            background: var(--accent);
+            color: #fff;
+            border-color: var(--accent);
+        }
+        .btn-primary:hover {
+            background: var(--accent-light);
+            box-shadow: 0 0 20px rgba(109,40,217,0.4);
+        }
+        .btn-outline {
+            background: transparent;
+            color: var(--text);
+            border-color: var(--border);
+        }
+        .btn-outline:hover {
+            border-color: var(--accent-light);
+            box-shadow: 0 0 15px rgba(109,40,217,0.2);
+        }
+
+        /* SECTIONS */
+        section {
+            padding: 5rem 0;
+            border-top: 1px solid var(--border);
+        }
+        .section-title {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            color: var(--accent-light);
+            margin-bottom: 1rem;
+        }
+        h2 {
+            font-size: 2rem;
+            font-weight: 600;
+            margin-bottom: 3rem;
+        }
+
+        /* ABOUT */
+        .about p {
+            color: #aaa;
+            margin-bottom: 1.2rem;
+            max-width: 600px;
+        }
+        .about p strong {
+            color: var(--text);
+            font-weight: 500;
+        }
+
+        /* PROJECTS */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1px;
+            background: var(--border);
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+        }
+        .project-card {
+            background: var(--surface);
+            padding: 2rem;
+            text-decoration: none;
+            display: block;
+            transition: background 0.3s, transform 0.3s;
+            position: relative;
+            z-index: 1;
+        }
+        .project-card:hover {
+            background: #1a1a1a;
+            transform: scale(1.02);
+            z-index: 2;
+        }
+        .project-card h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.8rem;
+            color: var(--text);
+        }
+        .project-card p {
+            color: var(--muted);
+            font-size: 0.85rem;
+            margin-bottom: 1.2rem;
+            line-height: 1.5;
+        }
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+        }
+        .tag {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid var(--border);
+            padding: 0.2rem 0.6rem;
+            border-radius: 4px;
+            font-size: 0.68rem;
+            font-family: 'Fira Code', monospace;
+            color: var(--muted);
+        }
+        .arrow {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            font-size: 1.2rem;
+            color: var(--muted);
+            transition: color 0.3s;
+        }
+        .project-card:hover .arrow {
+            color: var(--accent-light);
+        }
+
+        /* CONTACT */
+        .contact-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+        .contact-link {
+            flex: 1;
+            min-width: 200px;
+            padding: 1.2rem;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            text-decoration: none;
+            color: var(--text);
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+        .contact-link:hover {
+            border-color: var(--accent);
+            box-shadow: 0 0 20px rgba(109,40,217,0.15);
+            background: #191919;
+        }
+        .contact-icon {
+            font-size: 1.3rem;
+        }
+        .contact-label {
+            font-size: 0.75rem;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.2rem;
+        }
+        .contact-value {
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem;
+            border-top: 1px solid var(--border);
+            color: var(--muted);
+            font-size: 0.75rem;
+            margin-top: 2rem;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 600px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            nav ul {
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-grid"></div>
+
+    <nav>
+        <div class="logo">AM</div>
+        <ul>
+            <li><a href="#about">About</a></li>
+            <li><a href="#projects">Projects</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+
+    <main class="container">
+        <!-- HERO -->
+        <div class="hero">
+            <div class="hero-badge">M.Tech CS @ IIIT Hyderabad</div>
+            <h1>Ankit Mishra</h1>
+            <p>
+                I build RAG applications, agentic AI workflows, and distributed backend systems — focusing on things that work reliably, not just in demos.
+            </p>
+            <div class="hero-buttons">
+                <a href="#projects" class="btn btn-primary">View Projects</a>
+                <a href="#contact" class="btn btn-outline">Get in Touch</a>
+            </div>
+        </div>
+
+        <!-- ABOUT -->
+        <section id="about">
+            <div class="section-title">/ about</div>
+            <h2>About me</h2>
+            <div class="about">
+                <p>
+                    I'm an M.Tech Computer Science student at <strong>IIIT Hyderabad</strong>,
+                    working at the intersection of <strong>Generative AI</strong> and <strong>systems engineering</strong>.
+                </p>
+                <p>
+                    My focus is on building RAG pipelines that go beyond basic retrieval —
+                    thinking about retrieval quality, memory, guardrails, and real-world reliability.
+                    On the systems side, I care about fault tolerance, consistency, and performance.
+                </p>
+                <p>
+                    I prefer implementing things from scratch over plugging in libraries I don't understand.
+                    That's shaped how I approach everything from transformers to distributed architectures.
+                </p>
+                <p>
+                    Currently open to roles in <strong>Generative AI / RAG / Agentic AI</strong>
+                    and <strong>backend engineering</strong>.
+                </p>
+            </div>
+        </section>
+
+        <!-- PROJECTS -->
+        <section id="projects">
+            <div class="section-title">/ projects</div>
+            <h2>Things I've built</h2>
+
+            <div class="projects-grid">
+                <!-- FinRAG -->
+                <a class="project-card" href="https://github.com/ankitmishra7999/FinRAG" target="_blank">
+                    <span class="arrow">↗</span>
+                    <h3>FinRAG</h3>
+                    <p>RAG over SEC filings with hybrid FAISS+BM25 retrieval, FinBERT embeddings, multi-turn memory, and guardrails.</p>
+                    <div class="tags">
+                        <span class="tag">LangChain</span>
+                        <span class="tag">FAISS</span>
+                        <span class="tag">BM25</span>
+                        <span class="tag">Mistral</span>
+                    </div>
+                </a>
+                <!-- Virtual Sales AI Agent -->
+                <a class="project-card" href="https://github.com/ankitmishra7999/Virtual-Sales-AI-Agent" target="_blank">
+                    <span class="arrow">↗</span>
+                    <h3>Virtual Sales AI Agent</h3>
+                    <p>Agentic workflow with LangGraph, tool-use, and human-in-the-loop confirmation. Streamlit + SQLite.</p>
+                    <div class="tags">
+                        <span class="tag">LangGraph</span>
+                        <span class="tag">Agentic AI</span>
+                        <span class="tag">Streamlit</span>
+                    </div>
+                </a>
+                <!-- Load Balancer -->
+                <a class="project-card" href="https://github.com/ankitmishra7999/Load_Balancer" target="_blank">
+                    <span class="arrow">↗</span>
+                    <h3>Distributed Load Balancer</h3>
+                    <p>Consistent hashing, sharding, replication, leader election. 38% throughput increase. C, Python, Docker.</p>
+                    <div class="tags">
+                        <span class="tag">C</span>
+                        <span class="tag">Python</span>
+                        <span class="tag">Docker</span>
+                    </div>
+                </a>
+                <!-- P2P File Sharing -->
+                <a class="project-card" href="https://github.com/ankitmishra7999/peer_to_peer_fileSharingSystem" target="_blank">
+                    <span class="arrow">↗</span>
+                    <h3>P2P File Sharing System</h3>
+                    <p>Multi-tracker P2P with piece selection, SHA1 integrity, and multi-threading in C++.</p>
+                    <div class="tags">
+                        <span class="tag">C++</span>
+                        <span class="tag">Networking</span>
+                        <span class="tag">Multi-threading</span>
+                    </div>
+                </a>
+                <!-- Arithmetic Transformer -->
+                <a class="project-card" href="https://github.com/ankitmishra7999/arithmetic_transformer" target="_blank">
+                    <span class="arrow">↗</span>
+                    <h3>Arithmetic Reasoning Transformer</h3>
+                    <p>PyTorch transformer (4-layer, 8-head) on a custom 37k+ arithmetic dataset. Ablation studies.</p>
+                    <div class="tags">
+                        <span class="tag">PyTorch</span>
+                        <span class="tag">Transformers</span>
+                        <span class="tag">NLP</span>
+                    </div>
+                </a>
+                <!-- Movie Recommendation -->
+                <a class="project-card" href="https://github.com/ankitmishra7999/Recommendation-System" target="_blank">
+                    <span class="arrow">↗</span>
+                    <h3>Movie Recommendation System</h3>
+                    <p>TF-IDF + Truncated SVD on 1.3M movies. Memory-optimized Django deployment.</p>
+                    <div class="tags">
+                        <span class="tag">Python</span>
+                        <span class="tag">Django</span>
+                        <span class="tag">TF-IDF</span>
+                    </div>
+                </a>
+            </div>
+        </section>
+
+        <!-- CONTACT -->
+        <section id="contact">
+            <div class="section-title">/ contact</div>
+            <h2>Get in touch.</h2>
+            <p style="color:var(--muted); max-width:500px;">
+                Open to roles and internships in Generative AI, RAG, and backend engineering.
+            </p>
+            <div class="contact-links">
+                <a class="contact-link" href="mailto:ankitmishra.03072000@gmail.com">
+                    <span class="contact-icon">📧</span>
+                    <div>
+                        <div class="contact-label">Email</div>
+                        <div class="contact-value">ankitmishra.03072000</div>
+                    </div>
+                </a>
+                <a class="contact-link" href="https://linkedin.com/in/ankit-mishra-b89270320" target="_blank">
+                    <span class="contact-icon">🔗</span>
+                    <div>
+                        <div class="contact-label">LinkedIn</div>
+                        <div class="contact-value">ankit-mishra-b89270320</div>
+                    </div>
+                </a>
+                <a class="contact-link" href="https://github.com/ankitmishra7999" target="_blank">
+                    <span class="contact-icon">💻</span>
+                    <div>
+                        <div class="contact-label">GitHub</div>
+                        <div class="contact-value">ankitmishra7999</div>
+                    </div>
+                </a>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        &copy; 2025 Ankit Mishra
+    </footer>
+</body>
+</html>
