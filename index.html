@@ -6,11 +6,7 @@
     <title>Ankit Mishra | Portfolio</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         :root {
             --bg: #0a0a0a;
@@ -20,47 +16,45 @@
             --muted: #888;
             --accent: #6d28d9;
             --accent-light: #8b5cf6;
-            --gradient-1: linear-gradient(135deg, #6d28d9 0%, #3b82f6 100%);
-            --gradient-2: linear-gradient(135deg, #3b82f6 0%, #6d28d9 100%);
         }
 
-        html {
-            scroll-behavior: smooth;
-        }
+        html { scroll-behavior: smooth; }
 
         body {
             background-color: var(--bg);
             color: var(--text);
             font-family: 'Inter', sans-serif;
             line-height: 1.6;
-            -webkit-font-smoothing: antialiased;
             overflow-x: hidden;
+            cursor: default;
         }
 
-        /* animated background subtle */
-        .bg-grid {
+        /* === Particle canvas === */
+        #particles-canvas {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image:
-                linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
-            background-size: 60px 60px;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
             z-index: -1;
             pointer-events: none;
         }
 
-        nav {
+        /* === Mouse glow === */
+        .mouse-glow {
             position: fixed;
-            top: 0;
-            width: 100%;
-            z-index: 100;
+            pointer-events: none;
+            width: 500px; height: 500px;
+            background: radial-gradient(circle, rgba(109,40,217,0.12) 0%, transparent 70%);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 0;
+            transition: opacity 0.2s;
+        }
+
+        /* === Nav === */
+        nav {
+            position: fixed; top: 0; width: 100%; z-index: 100;
             padding: 1.2rem 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            display: flex; justify-content: space-between; align-items: center;
             background: rgba(10,10,10,0.8);
             backdrop-filter: blur(20px);
             border-bottom: 1px solid var(--border);
@@ -71,255 +65,162 @@
             color: var(--accent-light);
             letter-spacing: 0.1em;
         }
-        nav ul {
-            list-style: none;
-            display: flex;
-            gap: 2rem;
-        }
+        nav ul { list-style: none; display: flex; gap: 2rem; }
         nav a {
-            text-decoration: none;
-            color: var(--muted);
-            font-size: 0.8rem;
-            letter-spacing: 0.05em;
-            transition: color 0.3s;
+            text-decoration: none; color: var(--muted);
+            font-size: 0.8rem; letter-spacing: 0.05em; transition: color 0.3s;
         }
-        nav a:hover {
-            color: var(--text);
-        }
+        nav a:hover { color: var(--text); }
 
         .container {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 8rem 1.5rem 4rem;
+            max-width: 900px; margin: 0 auto; padding: 8rem 1.5rem 4rem;
+            position: relative; z-index: 1;
         }
 
-        /* HERO */
+        /* === Hero === */
         .hero {
             min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            text-align: center;
-            position: relative;
+            display: flex; flex-direction: column; justify-content: center;
+            text-align: center; position: relative;
         }
         .hero-badge {
-    display: inline-block;
-    padding: 0.4rem 1.5rem;
-    border: 1px solid var(--border);
-    border-radius: 30px;
-    font-size: 0.85rem;
-    letter-spacing: 0.1em;
-    color: var(--muted);
-    margin-bottom: 2rem;
-    background: rgba(255,255,255,0.02);
-    backdrop-filter: blur(10px);
-}
+            display: inline-block; padding: 0.4rem 1.5rem;
+            border: 1px solid var(--border); border-radius: 30px;
+            font-size: 0.85rem; letter-spacing: 0.1em; color: var(--muted);
+            margin-bottom: 2rem;
+            background: rgba(255,255,255,0.02);
+            backdrop-filter: blur(10px);
+        }
         .hero h1 {
-            font-size: clamp(3rem, 8vw, 5.5rem);
-            font-weight: 700;
-            line-height: 1.1;
-            margin-bottom: 1.5rem;
-            background: var(--gradient-1);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            font-size: clamp(3rem, 8vw, 5.5rem); font-weight: 700;
+            line-height: 1.1; margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, #6d28d9 0%, #3b82f6 50%, #8b5cf6 100%);
+            background-size: 200% 200%;
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
             background-clip: text;
+            animation: gradientShift 4s ease infinite;
         }
-        .hero p {
-            font-size: 1.05rem;
-            color: var(--muted);
-            max-width: 500px;
-            margin: 0 auto 2.5rem;
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
-        .hero-buttons {
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-            flex-wrap: wrap;
+        .hero-sub {
+            font-size: 1.05rem; color: var(--muted);
+            max-width: 500px; margin: 0 auto 2.5rem;
         }
+        .hero-buttons { display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; }
         .btn {
-            padding: 0.8rem 2rem;
-            border-radius: 30px;
-            font-weight: 500;
-            font-size: 0.85rem;
-            text-decoration: none;
-            transition: all 0.3s;
-            letter-spacing: 0.03em;
-            cursor: pointer;
-            border: 1px solid transparent;
+            padding: 0.8rem 2rem; border-radius: 30px;
+            font-weight: 500; font-size: 0.85rem; text-decoration: none;
+            transition: all 0.3s; letter-spacing: 0.03em;
+            border: 1px solid transparent; cursor: pointer;
         }
         .btn-primary {
-            background: var(--accent);
-            color: #fff;
-            border-color: var(--accent);
+            background: var(--accent); color: #fff; border-color: var(--accent);
         }
         .btn-primary:hover {
-            background: var(--accent-light);
-            box-shadow: 0 0 20px rgba(109,40,217,0.4);
+            background: var(--accent-light); box-shadow: 0 0 20px rgba(109,40,217,0.4);
         }
         .btn-outline {
-            background: transparent;
-            color: var(--text);
-            border-color: var(--border);
+            background: transparent; color: var(--text); border-color: var(--border);
         }
         .btn-outline:hover {
-            border-color: var(--accent-light);
-            box-shadow: 0 0 15px rgba(109,40,217,0.2);
+            border-color: var(--accent-light); box-shadow: 0 0 15px rgba(109,40,217,0.2);
         }
 
-        /* SECTIONS */
-        section {
-            padding: 5rem 0;
-            border-top: 1px solid var(--border);
-        }
+        /* === Sections === */
+        section { padding: 5rem 0; border-top: 1px solid var(--border); }
         .section-title {
-            font-size: 0.7rem;
-            text-transform: uppercase;
-            letter-spacing: 0.2em;
-            color: var(--accent-light);
-            margin-bottom: 1rem;
+            font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.2em;
+            color: var(--accent-light); margin-bottom: 1rem;
         }
-        h2 {
-            font-size: 2rem;
-            font-weight: 600;
-            margin-bottom: 3rem;
-        }
+        h2 { font-size: 2rem; font-weight: 600; margin-bottom: 3rem; }
 
-        /* ABOUT */
-        .about p {
-            color: #aaa;
-            margin-bottom: 1.2rem;
-            max-width: 600px;
-        }
-        .about p strong {
-            color: var(--text);
-            font-weight: 500;
-        }
+        /* === About === */
+        .about p { color: #aaa; margin-bottom: 1.2rem; max-width: 600px; }
+        .about p strong { color: var(--text); font-weight: 500; }
 
-        /* PROJECTS */
+        /* === Project cards with tilt === */
         .projects-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 1px;
-            background: var(--border);
-            border-radius: 16px;
-            overflow: hidden;
+            gap: 1px; background: var(--border);
+            border-radius: 16px; overflow: hidden;
             border: 1px solid var(--border);
         }
         .project-card {
-            background: var(--surface);
-            padding: 2rem;
-            text-decoration: none;
-            display: block;
-            transition: background 0.3s, transform 0.3s;
-            position: relative;
-            z-index: 1;
+            background: var(--surface); padding: 2rem;
+            text-decoration: none; display: block;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            transform-style: preserve-3d; perspective: 1000px;
+            position: relative; z-index: 1;
         }
         .project-card:hover {
-            background: #1a1a1a;
-            transform: scale(1.02);
             z-index: 2;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
         }
         .project-card h3 {
-            font-size: 1.1rem;
-            font-weight: 600;
-            margin-bottom: 0.8rem;
+            font-size: 1.1rem; font-weight: 600; margin-bottom: 0.8rem;
             color: var(--text);
         }
-        .project-card p {
-            color: var(--muted);
-            font-size: 0.85rem;
-            margin-bottom: 1.2rem;
-            line-height: 1.5;
-        }
-        .tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.4rem;
-        }
+        .project-card p { color: var(--muted); font-size: 0.85rem; margin-bottom: 1.2rem; line-height: 1.5; }
+        .tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
         .tag {
-            background: rgba(255,255,255,0.04);
-            border: 1px solid var(--border);
-            padding: 0.2rem 0.6rem;
-            border-radius: 4px;
-            font-size: 0.68rem;
-            font-family: 'Fira Code', monospace;
+            background: rgba(255,255,255,0.04); border: 1px solid var(--border);
+            padding: 0.2rem 0.6rem; border-radius: 4px;
+            font-size: 0.68rem; font-family: 'Fira Code', monospace;
             color: var(--muted);
         }
         .arrow {
-            position: absolute;
-            top: 1.5rem;
-            right: 1.5rem;
-            font-size: 1.2rem;
-            color: var(--muted);
+            position: absolute; top: 1.5rem; right: 1.5rem;
+            font-size: 1.2rem; color: var(--muted);
             transition: color 0.3s;
         }
-        .project-card:hover .arrow {
-            color: var(--accent-light);
-        }
+        .project-card:hover .arrow { color: var(--accent-light); }
 
-        /* CONTACT */
-        .contact-links {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1rem;
-            margin-top: 2rem;
-        }
+        /* === Contact === */
+        .contact-links { display: flex; flex-wrap: wrap; gap: 1rem; margin-top: 2rem; }
         .contact-link {
-            flex: 1;
-            min-width: 200px;
-            padding: 1.2rem;
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            text-decoration: none;
-            color: var(--text);
-            transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            gap: 0.8rem;
+            flex: 1; min-width: 200px; padding: 1.2rem;
+            background: var(--surface); border: 1px solid var(--border);
+            border-radius: 12px; text-decoration: none; color: var(--text);
+            transition: all 0.3s; display: flex; align-items: center; gap: 0.8rem;
         }
         .contact-link:hover {
             border-color: var(--accent);
             box-shadow: 0 0 20px rgba(109,40,217,0.15);
             background: #191919;
         }
-        .contact-icon {
-            font-size: 1.3rem;
-        }
-        .contact-label {
-            font-size: 0.75rem;
-            color: var(--muted);
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            margin-bottom: 0.2rem;
-        }
-        .contact-value {
-            font-size: 0.9rem;
-            font-weight: 500;
-        }
+        .contact-icon { font-size: 1.3rem; }
+        .contact-label { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.2rem; }
+        .contact-value { font-size: 0.9rem; font-weight: 500; }
 
         footer {
-            text-align: center;
-            padding: 2rem;
+            text-align: center; padding: 2rem;
             border-top: 1px solid var(--border);
-            color: var(--muted);
-            font-size: 0.75rem;
-            margin-top: 2rem;
+            color: var(--muted); font-size: 0.75rem; margin-top: 2rem;
         }
 
-        /* RESPONSIVE */
+        /* === Scroll fade-in (staggered) === */
+        .fade-in {
+            opacity: 0; transform: translateY(30px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+        .fade-in.visible { opacity: 1; transform: translateY(0); }
+
         @media (max-width: 600px) {
-            .hero h1 {
-                font-size: 2.5rem;
-            }
-            nav ul {
-                gap: 1rem;
-            }
+            .hero h1 { font-size: 2.5rem; }
+            nav ul { gap: 1rem; }
         }
     </style>
 </head>
 <body>
-    <div class="bg-grid"></div>
+    <!-- Particle background -->
+    <canvas id="particles-canvas"></canvas>
+
+    <!-- Mouse glow element -->
+    <div class="mouse-glow" id="mouse-glow"></div>
 
     <nav>
         <div class="logo">AM</div>
@@ -335,7 +236,7 @@
         <div class="hero">
             <div class="hero-badge">M.Tech CS @ IIIT Hyderabad</div>
             <h1>Ankit Mishra</h1>
-            <p>
+            <p class="hero-sub">
                 I build RAG applications, agentic AI workflows, and distributed backend systems — focusing on things that work reliably, not just in demos.
             </p>
             <div class="hero-buttons">
@@ -345,46 +246,29 @@
         </div>
 
         <!-- ABOUT -->
-        <section id="about">
+        <section id="about" class="fade-in">
             <div class="section-title">/ about</div>
             <h2>About me</h2>
             <div class="about">
-                <p>
-                    I'm an M.Tech Computer Science student at <strong>IIIT Hyderabad</strong>,
-                    working at the intersection of <strong>Generative AI</strong> and <strong>systems engineering</strong>.
-                </p>
-                <p>
-                    My focus is on building RAG pipelines that go beyond basic retrieval —
-                    thinking about retrieval quality, memory, guardrails, and real-world reliability.
-                    On the systems side, I care about fault tolerance, consistency, and performance.
-                </p>
-                <p>
-                    I prefer implementing things from scratch over plugging in libraries I don't understand.
-                    That's shaped how I approach everything from transformers to distributed architectures.
-                </p>
-                <p>
-                    Currently open to roles in <strong>Generative AI / RAG / Agentic AI</strong>
-                    and <strong>backend engineering</strong>.
-                </p>
+                <p>I'm an M.Tech Computer Science student at <strong>IIIT Hyderabad</strong>, working at the intersection of <strong>Generative AI</strong> and <strong>systems engineering</strong>.</p>
+                <p>My focus is on building RAG pipelines that go beyond basic retrieval — thinking about retrieval quality, memory, guardrails, and real-world reliability. On the systems side, I care about fault tolerance, consistency, and performance.</p>
+                <p>I prefer implementing things from scratch over plugging in libraries I don't understand. That's shaped how I approach everything from transformers to distributed architectures.</p>
+                <p>Currently open to roles in <strong>Generative AI / RAG / Agentic AI</strong> and <strong>backend engineering</strong>.</p>
             </div>
         </section>
 
         <!-- PROJECTS -->
-        <section id="projects">
+        <section id="projects" class="fade-in">
             <div class="section-title">/ projects</div>
             <h2>Things I've built</h2>
-
-            <div class="projects-grid">
+            <div class="projects-grid" id="projects-grid">
                 <!-- FinRAG -->
                 <a class="project-card" href="https://github.com/ankitmishra7999/FinRAG" target="_blank">
                     <span class="arrow">↗</span>
                     <h3>FinRAG</h3>
                     <p>RAG over SEC filings with hybrid FAISS+BM25 retrieval, FinBERT embeddings, multi-turn memory, and guardrails.</p>
                     <div class="tags">
-                        <span class="tag">LangChain</span>
-                        <span class="tag">FAISS</span>
-                        <span class="tag">BM25</span>
-                        <span class="tag">Mistral</span>
+                        <span class="tag">LangChain</span><span class="tag">FAISS</span><span class="tag">BM25</span><span class="tag">Mistral</span>
                     </div>
                 </a>
                 <!-- Virtual Sales AI Agent -->
@@ -393,9 +277,7 @@
                     <h3>Virtual Sales AI Agent</h3>
                     <p>Agentic workflow with LangGraph, tool-use, and human-in-the-loop confirmation. Streamlit + SQLite.</p>
                     <div class="tags">
-                        <span class="tag">LangGraph</span>
-                        <span class="tag">Agentic AI</span>
-                        <span class="tag">Streamlit</span>
+                        <span class="tag">LangGraph</span><span class="tag">Agentic AI</span><span class="tag">Streamlit</span>
                     </div>
                 </a>
                 <!-- Load Balancer -->
@@ -404,9 +286,7 @@
                     <h3>Distributed Load Balancer</h3>
                     <p>Consistent hashing, sharding, replication, leader election. 38% throughput increase. C, Python, Docker.</p>
                     <div class="tags">
-                        <span class="tag">C</span>
-                        <span class="tag">Python</span>
-                        <span class="tag">Docker</span>
+                        <span class="tag">C</span><span class="tag">Python</span><span class="tag">Docker</span>
                     </div>
                 </a>
                 <!-- P2P File Sharing -->
@@ -415,9 +295,7 @@
                     <h3>P2P File Sharing System</h3>
                     <p>Multi-tracker P2P with piece selection, SHA1 integrity, and multi-threading in C++.</p>
                     <div class="tags">
-                        <span class="tag">C++</span>
-                        <span class="tag">Networking</span>
-                        <span class="tag">Multi-threading</span>
+                        <span class="tag">C++</span><span class="tag">Networking</span><span class="tag">Multi-threading</span>
                     </div>
                 </a>
                 <!-- Arithmetic Transformer -->
@@ -426,9 +304,7 @@
                     <h3>Arithmetic Reasoning Transformer</h3>
                     <p>PyTorch transformer (4-layer, 8-head) on a custom 37k+ arithmetic dataset. Ablation studies.</p>
                     <div class="tags">
-                        <span class="tag">PyTorch</span>
-                        <span class="tag">Transformers</span>
-                        <span class="tag">NLP</span>
+                        <span class="tag">PyTorch</span><span class="tag">Transformers</span><span class="tag">NLP</span>
                     </div>
                 </a>
                 <!-- Movie Recommendation -->
@@ -437,16 +313,14 @@
                     <h3>Movie Recommendation System</h3>
                     <p>TF-IDF + Truncated SVD on 1.3M movies. Memory-optimized Django deployment.</p>
                     <div class="tags">
-                        <span class="tag">Python</span>
-                        <span class="tag">Django</span>
-                        <span class="tag">TF-IDF</span>
+                        <span class="tag">Python</span><span class="tag">Django</span><span class="tag">TF-IDF</span>
                     </div>
                 </a>
             </div>
         </section>
 
         <!-- CONTACT -->
-        <section id="contact">
+        <section id="contact" class="fade-in">
             <div class="section-title">/ contact</div>
             <h2>Get in touch.</h2>
             <p style="color:var(--muted); max-width:500px;">
@@ -478,8 +352,114 @@
         </section>
     </main>
 
-    <footer>
-        &copy; 2025 Ankit Mishra
-    </footer>
+    <footer>© 2025 Ankit Mishra</footer>
+
+    <!-- Scripts -->
+    <script>
+        // === Particle network (lightweight, no library) ===
+        (function() {
+            const canvas = document.getElementById('particles-canvas');
+            const ctx = canvas.getContext('2d');
+            let particles = [];
+            const particleCount = 70;
+
+            function resize() {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            }
+            window.addEventListener('resize', resize);
+            resize();
+
+            class Particle {
+                constructor() {
+                    this.reset();
+                }
+                reset() {
+                    this.x = Math.random() * canvas.width;
+                    this.y = Math.random() * canvas.height;
+                    this.vx = (Math.random() - 0.5) * 0.4;
+                    this.vy = (Math.random() - 0.5) * 0.4;
+                    this.radius = Math.random() * 1.5 + 0.5;
+                }
+                update() {
+                    this.x += this.vx;
+                    this.y += this.vy;
+                    if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
+                    if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
+                }
+                draw() {
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                    ctx.fillStyle = 'rgba(139, 92, 246, 0.5)';
+                    ctx.fill();
+                }
+            }
+
+            for (let i = 0; i < particleCount; i++) particles.push(new Particle());
+
+            function connectParticles() {
+                for (let i = 0; i < particles.length; i++) {
+                    for (let j = i + 1; j < particles.length; j++) {
+                        const dx = particles[i].x - particles[j].x;
+                        const dy = particles[i].y - particles[j].y;
+                        const dist = Math.sqrt(dx * dx + dy * dy);
+                        if (dist < 120) {
+                            ctx.beginPath();
+                            ctx.moveTo(particles[i].x, particles[i].y);
+                            ctx.lineTo(particles[j].x, particles[j].y);
+                            ctx.strokeStyle = 'rgba(139, 92, 246, 0.08)';
+                            ctx.lineWidth = 0.5;
+                            ctx.stroke();
+                        }
+                    }
+                }
+            }
+
+            function animate() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                particles.forEach(p => { p.update(); p.draw(); });
+                connectParticles();
+                requestAnimationFrame(animate);
+            }
+            animate();
+        })();
+
+        // === Mouse glow ===
+        const glow = document.getElementById('mouse-glow');
+        document.addEventListener('mousemove', (e) => {
+            glow.style.left = e.clientX + 'px';
+            glow.style.top = e.clientY + 'px';
+            glow.style.opacity = '1';
+        });
+        document.addEventListener('mouseleave', () => { glow.style.opacity = '0'; });
+
+        // === Scroll reveal (staggered) ===
+        const revealElements = document.querySelectorAll('.fade-in');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.15 });
+        revealElements.forEach(el => observer.observe(el));
+
+        // === 3D tilt on project cards ===
+        document.querySelectorAll('.project-card').forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                const rotateX = (y - centerY) / 10;
+                const rotateY = (centerX - x) / 10;
+                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02,1.02,1.02)`;
+            });
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale3d(1,1,1)';
+            });
+        });
+    </script>
 </body>
 </html>
